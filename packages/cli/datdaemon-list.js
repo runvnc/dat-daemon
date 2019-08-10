@@ -1,9 +1,9 @@
 const Client = require('@dat-daemon/client')
 const log = require('./lib/log')
 
-async function main () {
+async function list(client) {
   try {
-    const client = await Client()
+    console.log('client is', client);
     const list = await client.list()
     if (list.length) {
       list.forEach((e) => {
@@ -12,11 +12,9 @@ async function main () {
     } else {
       log.info('Nothing there.')
     }
-    process.exit(0)
   } catch (err) {
     require('./lib/error')(err)
-    process.exit(1)
   }
 }
 
-main()
+module.exports = list;

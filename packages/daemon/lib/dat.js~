@@ -14,10 +14,9 @@ module.exports.resolve = function (link) {
   })
 }
 
-module.exports.create = function (key, directory, opts) {
+module.exports.create = function (key, directory, options) {
   return new Promise(function (resolve, reject) {
-    let options = {};
-    if (opts) options = opts;
+    let options = options || {};
     let fname = undefined;
     if (key) {
       if (key.includes('/')) {

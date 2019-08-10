@@ -5,6 +5,14 @@ const {onmessage, close, config, onrequest, init, log} = require('./')
 const configuration = config()
 var server
 
+// for some reason in my Windows crashes with econnreset whenever
+// it gets a list command
+
+process.on('uncaughtException', function(e) {
+  console.error('Eating exception:');
+  console.error(e);
+});
+
 daemon()
 
 async function daemon () {

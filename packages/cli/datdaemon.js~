@@ -38,10 +38,6 @@ async function go() {
         resp = await client.removeList(arg);
         console.log(resp);
         break;
-      case 'info':
-        const answer = await client.info(arg)
-        console.log(JSON.stringify(answer.statistics));
-        break; 
       case 'q':
         process.exit();
         break;

@@ -1,10 +1,5 @@
-#!/usr/bin/env node
-const Client = require('@dat-daemon/client')
-const program = require('commander')
 const log = require('./lib/log')
 
-program
-  .parse(process.argv)
 
 const [dir, key] = program.args
 

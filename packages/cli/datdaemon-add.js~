@@ -6,16 +6,15 @@ const log = require('./lib/log')
 program
   .parse(process.argv)
 
-const [key] = program.args
+const [dir, key] = program.args
 
 async function main () {
   try {
-    if (!key) {
-      throw new Error('Key is required.')
+    if (!dir) {
+      throw new Error('Directory is required.')
     }
-
     const client = await Client()
-    const answer = await client.removeList(key)
+    const answer = await client.add(dir, key)
     log.info(answer.message)
     process.exit(0)
   } catch (err) {
