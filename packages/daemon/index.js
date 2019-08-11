@@ -255,14 +255,21 @@ async function updateState () {
     if (!state.has(item.key)) {
       console.log({item});
       let dir = item.path;
+      let usekey = item.key;
       if (dir.includes('.')) {
         let last = dir.lastIndexOf('/');
         dir = dir.substring(0, last-1);
+        usekey = item.key + '/' + item.path.substring(last+1);
       }
-      const dat = await Dat.create(item.key, dir, item.options)
-      dat._daemonOptions = item.options
-      state.set(item.key, dat)
-      pathState.set(item.path, item.key)
+      try {
+        const dat = await Dat.create(usekey, dir, item.options)
+        dat._daemonOptions = item.options
+        state.set(item.key, dat)
+        pathState.set(item.path, item.key)
+      } catch(e) {
+        console.error('error in create:');
+        console.error(e);
+      }
     }
   }
 }

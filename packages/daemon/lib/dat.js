@@ -15,6 +15,7 @@ module.exports.resolve = function (link) {
 }
 
 module.exports.create = function (key, directory, opts) {
+  console.log('create',{key,directory,opts});
   return new Promise(function (resolve, reject) {
     let options = {};
     if (opts) options = opts;
@@ -23,19 +24,24 @@ module.exports.create = function (key, directory, opts) {
       if (key.includes('/')) {
         options.sparse = true;
         let tokens = key.split('/');
-        fname = key[1];
-        options.key = key[0];
+        fname = tokens[1];
+        options.key = tokens[0];
       } else {
         options.key = key;
       }
     }
+    console.log({options,fname});
     Dat(directory, Object.assign(options), function (err, dat) {
       if (err) {
         reject(err)
         return
       }
       if (fname) {
-        Dat.archive.readFile('/'+fname, function (err, content) {
+        dat.joinNetwork();
+        //dat.archive.update( () => console.log('metadata recvd') );
+        console.log('calling readfile');
+        dat.archive.readFile('/'+fname, function (err, content) {
+          console.log('returned',{err,content});
           resolve(dat);
         });
       } else {

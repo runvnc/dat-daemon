@@ -255,11 +255,13 @@ async function updateState () {
     if (!state.has(item.key)) {
       console.log({item});
       let dir = item.path;
-      //if (dir.includes('.')) {
-      //  let last = dir.lastIndexOf('
-      //  dir = dir.split('/')[1];
-      //}
-      const dat = await Dat.create(item.key, dir, item.options)
+      let usekey = item.key;
+      if (dir.includes('.')) {
+        let last = dir.lastIndexOf('/');
+        dir = dir.substring(0, last-1);
+        usekey = item.key + '/' + item.path.substring(last+1);
+      }
+      const dat = await Dat.create(usekey, dir, item.options)
       dat._daemonOptions = item.options
       state.set(item.key, dat)
       pathState.set(item.path, item.key)
